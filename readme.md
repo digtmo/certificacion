@@ -11,6 +11,7 @@ PostgreSQL: Descargar e instalar PostgreSQL
 Luego debes instalar las dependencias
 
 npm install
+
 Configuración
 
 Asegúrese de configurar correctamente las variables de entorno. Puede hacerlo creando un archivo .env en el directorio raíz del proyecto y configurando las siguientes variables:
