@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fidelis Global Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+    <section class="vh-full gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <div class="mb-md-5 mt-md-4 pb-5">
+                                <h2 class="fw-bold mb-4 text-uppercase">Registrate</h2>
+                                <div class="form-outline form-white mb-4">
+                                    <input type="text" id="nombre" class="form-control form-control-lg"
+                                        placeholder="Nombre Completo" />
+                                </div>
+                                <div class="form-outline form-white mb-4">
+                                    <input type="email" id="correo" class="form-control form-control-lg"
+                                        placeholder="Correo" />
+                                </div>
+                                <div class="form-outline form-white mb-4">
+                                    <input type="text" id="rut" class="form-control form-control-lg"
+                                        placeholder="Rut" />
+                                </div>
+                                <div class="form-outline form-white mb-4">
+                                    <input type="text" id="direccion" class="form-control form-control-lg"
+                                        placeholder="Dirección" />
+                                </div>
+                                <div class="form-outline form-white mb-4">
+                                    <input type="password" id="password" class="form-control form-control-lg"
+                                        placeholder="Clave" />
+                                </div>
+                                <div class="form-outline form-white mb-4">
+                                    <input type="password" id="Rpassword" class="form-control form-control-lg"
+                                        placeholder="Confirma tu Clave" />
+                                </div>
+                                <button class="btn btn-outline-light btn-lg px-5" id="registroBtn">Registrarme</button>
+                                <a href="/" class="btn btn-outline-light btn-lg px-5 mt-2">Volver a Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const registroBtn = document.getElementById('registroBtn');
+
+            registroBtn.addEventListener('click', async () => {
+                const nombre = document.getElementById('nombre').value;
+                const correo = document.getElementById('correo').value;
+                const rut = document.getElementById('rut').value;
+                const direccion = document.getElementById('direccion').value;
+                const password = document.getElementById('password').value;
+                const Rpassword = document.getElementById('Rpassword').value;
+
+                if (password !== Rpassword) {
+                    alert('Las contraseñas no coinciden');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('http://localhost:3000/v1/usuario/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            nombre,
+                            correo,
+                            rut,
+                            direccion,
+                            password
+                        })
+                    });
+
+                    if (response.status === 200) {
+                        alert('Usuario creado con éxito!');
+                        window.location.href = '/';
+                    } else {
+                        const data = await response.json();
+                        alert('Error al crear el usuario: ' + data.mensaje);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert('Error de servidor');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+<style>
+    .gradient-custom {
+        /* fallback for old browsers */
+        background: #ffffff;
+
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to right, rgb(238, 238, 238), rgba(37, 117, 252, 1))
+    }
+</style>
